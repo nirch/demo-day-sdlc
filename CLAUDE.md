@@ -69,6 +69,8 @@ Work flows through three skills: `/product` (requirements), `/dev` (implement), 
 - Work on a feature branch, not `main`.
 - Small commits, imperative subject line.
 - Run lint before committing.
+- Never commit or push unless explicitly asked. Leave changes uncommitted for review.
+- Never push, force-push, or touch `main`.
 <!-- Why: small commits are easy to review and revert; lint catches mistakes early. -->
 
 ## Testing policy
