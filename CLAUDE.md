@@ -3,7 +3,7 @@
 <!-- Teaching notes: every "Why" below is an HTML comment. Claude Code strips these before loading the file, so they cost no tokens. Keep them for your team or delete them. -->
 
 ## Overview
-Web app for running hackathon-style demo days: admins create events, teams and scoring criteria, invite judges by link, and judges score teams. Admin and judge roles. Read `docs/` for background, `docs/design-brief.md` for UI direction and `docs/use-cases.md` for behavior. Don't copy their content here.
+Web app for running hackathon-style demo days: admins create events, teams and scoring criteria, invite judges by link, and judges score teams. Admin and judge roles. Read `docs/` for background, `docs/flows/` for behavior and `docs/design-brief.md` for UI direction. Don't copy their content here.
 <!-- Why: one source per fact. Duplicated docs drift, and Claude then trusts the stale copy. -->
 
 ## Stack
