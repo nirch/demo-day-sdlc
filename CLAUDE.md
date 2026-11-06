@@ -34,18 +34,31 @@ Config comes from the root `.env` (copy `.env.example`). Needs a running Postgre
 
 ## Conventions
 Patterns to follow (the code mostly does this today):
-- API routes live under `/api` and use kebab-case paths (e.g. `/api/judge-invite`).
-- Server layering: `routes` -> `validators` + `validate` -> `controllers` -> `services` -> `models`. Controllers stay thin; DB logic lives in services.
-- Every API response is `{ data, error }` with a correct HTTP status (never 200 with an error body). Errors go through `next(err)` (set `err.status`) to `middleware/errorHandler.js`.
-- Never swallow errors (no empty `catch`). Clients get a message, never a stack trace; log details server-side.
+
+### API and server
+- Routes live under `/api` and use kebab-case paths (e.g. `/api/judge-invite`).
+- Layering: `routes` -> `validators` + `validate` -> `controllers` -> `services` -> `models`. Controllers stay thin; DB logic lives in services.
+- Every API response is `{ data, error }` with a correct HTTP status (never 200 with an error body).
 - Routes use `auth`, then `requireRole(...)` for admin-only actions.
+
+### Database
 - Schema changes are new timestamped files in `server/src/migrations/`; never edit an applied one or alter tables by hand. Every migration has a `down` that fully reverses the `up`.
-- Naming: models are singular PascalCase, tables plural snake_case, columns snake_case, ids UUIDs. React components are `PascalCase.jsx`, one per file; other modules are camelCase.
 - Use a Sequelize transaction for any multi-step write (see `eventService.create`).
-- Config and secrets come from `.env`; add every new var to `.env.example` with a placeholder. No hardcoded secrets, URLs, IDs or magic numbers.
+- Naming: models are singular PascalCase, tables plural snake_case, columns snake_case, ids UUIDs.
+
+### Errors and logging
+- Errors go through `next(err)` (set `err.status`) to `middleware/errorHandler.js`.
+- Never swallow errors (no empty `catch`). Clients get a message, never a stack trace; log details server-side.
 - Logging uses `utils/logger.js` (winston); no `console.*` in committed code.
-- Client: one `services/*.js` file per API area, built on `services/api.js`; React never calls the DB, only the API. Pages in `pages/`, shared UI in `components/`.
-- Styling: no hardcoded colors or sizes. Values live in `client/src/styles/tokens.css` and reach components through Tailwind classes.
+
+### Client and styling
+- One `services/*.js` file per API area, built on `services/api.js`; React never calls the DB, only the API.
+- Pages in `pages/`, shared UI in `components/`. React components are `PascalCase.jsx`, one per file; other modules are camelCase.
+- No hardcoded colors or sizes. Values live in `client/src/styles/tokens.css` and reach components through Tailwind classes.
+
+### Config
+- Config and secrets come from `.env`; add every new var to `.env.example` with a placeholder. No hardcoded secrets, URLs, IDs or magic numbers.
+
 <!-- Why: these are the patterns the code already follows, so new code fits and reviews fast. Each rule also blocks a common agent mistake (silent errors, hand-edited schema, leaked secrets). Adapt the list to your codebase. -->
 
 ## SDLC workflow
