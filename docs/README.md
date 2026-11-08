@@ -1,6 +1,7 @@
 # Docs
 
 - [architecture.md](architecture.md): repo layout, stack, data model, auth and roles, response envelope, layering, client structure, draft-only rule.
+- [design-brief.md](design-brief.md): UI direction: principles, layout, component usage, copy tone, loading/empty/error states.
 - [flows/admin-login.md](flows/admin-login.md): admin signs in with email and password.
 - [flows/create-event.md](flows/create-event.md): admin creates an event with default criteria.
 - [flows/event-list-detail-delete.md](flows/event-list-detail-delete.md): browse events, open one, delete a draft.
