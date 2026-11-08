@@ -63,7 +63,10 @@ Patterns to follow (the code mostly does this today):
 
 ## SDLC workflow
 Work flows through three skills: `/product` (requirements), `/dev` (implement), `/qa` (verify). Each skill holds its own instructions.
-<!-- Why: separate roles keep each step focused. Keep process details in the skills, not here. -->
+Two read-only subagents review the work. Invoke them explicitly; the skills don't call them:
+- `plan-reviewer`: after `/dev` writes a plan, before approving it. Returns approve or revise.
+- `code-reviewer`: after `/dev` implements and tests, before `/qa` and the commit. Returns findings by severity.
+<!-- Why: separate roles keep each step focused. A reviewer with a fresh context catches what the author no longer sees. Keep process details in the skills and agents, not here. -->
 
 ## Git and commits
 - Work on a feature branch, not `main`.
