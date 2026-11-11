@@ -1,0 +1,9 @@
+#!/bin/sh
+# Post-commit hook: update docs/ in the background so the commit returns immediately.
+# Output goes to .git/update-docs.log (follow it with: tail -f .git/update-docs.log).
+root=$(git rev-parse --show-toplevel) || exit 0
+gitdir=$(git rev-parse --absolute-git-dir) || exit 0
+sha=$(git rev-parse HEAD) || exit 0
+
+nohup "$root/scripts/update-docs.sh" "$sha" </dev/null >>"$gitdir/update-docs.log" 2>&1 &
+exit 0
