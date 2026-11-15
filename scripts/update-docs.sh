@@ -6,6 +6,11 @@
 
 set -u
 
+# Git GUIs (VS Code, etc.) and non-login shells start hooks with a minimal PATH
+# that lacks the claude CLI (exit 127). Add the usual install locations.
+# Adjust if claude lives elsewhere on your machine: `command -v claude`.
+export PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
+
 sha="${1:-}"
 [ -n "$sha" ] || { echo "usage: $0 <full-sha>" >&2; exit 2; }
 
