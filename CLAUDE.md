@@ -19,7 +19,7 @@ Web app for running hackathon-style demo days: admins create events, teams and s
 | ORM        | Sequelize 6                                     |
 | Database   | PostgreSQL                                      |
 | Auth       | JWT                                             |
-| Testing    | Jest, supertest                                 |
+| Testing    | Jest, supertest, Playwright                     |
 
 <!-- Why: stops Claude from suggesting libraries or syntax (e.g. `import` in the server) that don't fit. The Node version avoids confusing install and build errors (Vite 8 and uuid 13 need 22.12+). -->
 
@@ -28,7 +28,9 @@ Web app for running hackathon-style demo days: admins create events, teams and s
 Config comes from the root `.env` (copy `.env.example`). Needs a running PostgreSQL.
 - Server (in `server/`): `npm run db:migrate`, `npm run db:seed` (admin user; fails harmlessly if it already exists), `npm run dev` (port 3000)
 - Client (in `client/`): `npm run dev` (port 5173, proxies `/api` to 3000)
-- Test (in `server/`): `npm test`. Jest is installed but no tests exist yet, so it currently exits 1 ("No tests found").
+- Test DB (in `server/`, once): `npm run test:db:setup` creates, migrates and seeds `demoday_test`. Needs `DATABASE_URL_TEST` in the root `.env`.
+- Test (in `server/`): `npm test` (Jest + supertest).
+- E2E (in `client/`): `npm run test:e2e` (Playwright). Stop any dev servers on ports 3000 and 5173 first: E2E starts its own servers against the test database.
 - Lint: `npm run lint` in `server/` and in `client/`. Both pass with warnings only.
 <!-- Why: Claude must run the real commands from the right folder; each package is separate. -->
 
@@ -78,5 +80,7 @@ Two read-only subagents review the work. Invoke them explicitly; the skills don'
 
 ## Testing policy
 - No backfill: don't write tests for existing code just to raise coverage.
-- New and changed code gets tests (server: Jest + supertest in `server/src/__tests__/`).
-<!-- Why: backfilling is slow and low value; tying tests to changes grows coverage where risk is. -->
+- New and changed code gets tests: server unit and integration tests with Jest + supertest in `server/src/__tests__/`, and E2E tests with Playwright in `client/e2e/`.
+- Tests must run against `demoday_test`. If `DATABASE_URL_TEST` is unset, the test config silently falls back to the dev database, so check it is set before running any test.
+- Tests create their own uniquely named data and never assume an empty database.
+<!-- Why: backfilling is slow and low value; tying tests to changes grows coverage where risk is. The fallback to the dev DB can wipe or pollute real data without any error. Shared test DB means data from earlier runs is always there. -->

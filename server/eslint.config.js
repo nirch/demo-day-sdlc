@@ -17,4 +17,8 @@ module.exports = defineConfig([
       'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     },
   },
+  {
+    files: ['src/__tests__/**/*.js'],
+    languageOptions: { globals: globals.jest },
+  },
 ]);
