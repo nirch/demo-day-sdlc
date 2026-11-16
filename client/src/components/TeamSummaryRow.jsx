@@ -33,71 +33,71 @@ export default function TeamSummaryRow({
   return (
     <li className="bg-bg-surface border border-border-card rounded-md shadow-sm overflow-hidden">
       <div className="flex items-center">
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-expanded={isExpanded}
-        className="
-          flex-1 min-w-0 flex items-center gap-4 pl-6 pr-4 py-5 text-left
-          hover:bg-bg-page transition-colors duration-base
-          focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2
-        "
-      >
-        <span className="text-sm text-text-muted w-6 shrink-0 text-right">{rank}</span>
-
-        <span className="flex-1 text-xl font-semibold tracking-tight text-text-primary">
-          {team.name}
-        </span>
-
-        <span className="text-base text-text-secondary shrink-0">
-          {hasAnyScore ? `${team.averageScore} / 5` : 'No scores'}
-        </span>
-
-        {judges.length > 0 && (
-          <span
-            className={`
-              shrink-0 text-xs font-medium px-2 py-0.5 rounded-sm
-              ${team.isComplete
-                ? 'bg-accent-subtle text-accent'
-                : 'bg-red-50 text-red-600'
-              }
-            `}
-          >
-            {team.isComplete ? 'Complete' : `Incomplete (${judgesWithScores.length}/${judges.length} judges)`}
-          </span>
-        )}
-
-        <svg
-          className={`w-4 h-4 text-text-muted shrink-0 transition-transform duration-base ${isExpanded ? 'rotate-180' : ''}`}
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-          aria-hidden="true"
+        <button
+          type="button"
+          onClick={onToggle}
+          aria-expanded={isExpanded}
+          className="
+            flex-1 min-w-0 flex items-center gap-4 pl-6 pr-4 py-5 text-left
+            hover:bg-bg-page transition-colors duration-base
+            focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2
+          "
         >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-        </svg>
-      </button>
+          <span className="text-sm text-text-muted w-6 shrink-0 text-right">{rank}</span>
 
-      <div className="shrink-0 pr-6 flex flex-col items-end gap-1">
-        {isWinner ? (
-          <WinnerBadge />
-        ) : (
-          <Button
-            variant="secondary"
-            isLoading={isSelecting}
-            onClick={onSelectWinner}
-            aria-label={`Select ${team.name} as winner`}
+          <span className="flex-1 text-xl font-semibold tracking-tight text-text-primary">
+            {team.name}
+          </span>
+
+          <span className="text-base text-text-secondary shrink-0">
+            {hasAnyScore ? `${team.averageScore} / 5` : 'No scores'}
+          </span>
+
+          {judges.length > 0 && (
+            <span
+              className={`
+                shrink-0 text-xs font-medium px-2 py-0.5 rounded-sm
+                ${team.isComplete
+                  ? 'bg-accent-subtle text-accent'
+                  : 'bg-red-50 text-red-600'
+                }
+              `}
+            >
+              {team.isComplete ? 'Complete' : `Incomplete (${judgesWithScores.length}/${judges.length} judges)`}
+            </span>
+          )}
+
+          <svg
+            className={`w-4 h-4 text-text-muted shrink-0 transition-transform duration-base ${isExpanded ? 'rotate-180' : ''}`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+            aria-hidden="true"
           >
-            Select as Winner
-          </Button>
-        )}
-        {hasSelectError && (
-          <p role="alert" className="text-sm text-danger">
-            {"Couldn't select winner. Try again."}
-          </p>
-        )}
-      </div>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        <div className="shrink-0 pr-6 flex flex-col items-end gap-1">
+          {isWinner ? (
+            <WinnerBadge />
+          ) : (
+            <Button
+              variant="secondary"
+              isLoading={isSelecting}
+              onClick={onSelectWinner}
+              aria-label={`Select ${team.name} as winner`}
+            >
+              Select as Winner
+            </Button>
+          )}
+          {hasSelectError && (
+            <p role="alert" className="text-sm text-danger">
+              {"Couldn't select winner. Try again."}
+            </p>
+          )}
+        </div>
       </div>
 
       {isExpanded && (
