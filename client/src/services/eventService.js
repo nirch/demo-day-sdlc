@@ -19,3 +19,8 @@ export const deleteEvent = async (id) => {
   const response = await api.delete(`/events/${id}`);
   return response.data.data;
 };
+
+export const selectWinner = async (eventId, teamId) => {
+  const response = await api.put(`/events/${eventId}/winner`, { teamId });
+  return response.data.data;
+};

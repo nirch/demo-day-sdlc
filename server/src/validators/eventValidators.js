@@ -1,4 +1,4 @@
-const { body } = require('express-validator');
+const { body, param } = require('express-validator');
 
 const createEventValidators = [
   body('name')
@@ -25,4 +25,11 @@ const createEventValidators = [
     .trim(),
 ];
 
-module.exports = { createEventValidators };
+const selectWinnerValidators = [
+  param('id')
+    .isUUID().withMessage('Event id must be a valid UUID'),
+  body('teamId')
+    .isUUID().withMessage('teamId must be a valid UUID'),
+];
+
+module.exports = { createEventValidators, selectWinnerValidators };

@@ -155,7 +155,7 @@ const getScoresSummary = async (eventId, judgeId) => {
 };
 
 const getScoringsSummaryAdmin = async (eventId) => {
-  const event = await Event.findByPk(eventId, { attributes: ['id', 'name'] });
+  const event = await Event.findByPk(eventId, { attributes: ['id', 'name', 'winner_team_id'] });
 
   if (!event) {
     const err = new Error('Event not found');
@@ -224,7 +224,7 @@ const getScoringsSummaryAdmin = async (eventId) => {
   });
 
   return {
-    event: { id: event.id, name: event.name },
+    event: { id: event.id, name: event.name, winnerTeamId: event.winner_team_id },
     criteria: criteria.map((c) => ({ id: c.id, name: c.name, sortOrder: c.sort_order })),
     judges: judges.map((j) => ({ id: j.id, name: j.name })),
     teams: teamsData,

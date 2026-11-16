@@ -48,4 +48,13 @@ const deleteEvent = async (req, res, next) => {
   }
 };
 
-module.exports = { listEvents, createEvent, getEvent, deleteEvent };
+const selectWinner = async (req, res, next) => {
+  try {
+    const result = await eventService.selectWinner(req.params.id, req.body.teamId);
+    res.json({ data: result, error: null });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { listEvents, createEvent, getEvent, deleteEvent, selectWinner };

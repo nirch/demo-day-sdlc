@@ -1,7 +1,9 @@
-const { Event, User, sequelize } = require('../models');
+const { Event, Team, User, sequelize } = require('../models');
+const { ForeignKeyConstraintError } = require('sequelize');
 const criteriaService = require('./criteriaService');
 
 const EVENT_ATTRIBUTES = ['id', 'name', 'description', 'date', 'status', 'time_limit', 'created_by', 'created_at', 'updated_at'];
+const EVENT_DETAIL_ATTRIBUTES = [...EVENT_ATTRIBUTES, 'winner_team_id'];
 
 const findAll = async () => {
   return Event.findAll({
@@ -34,7 +36,7 @@ const create = async ({ name, description, date, time_limit, created_by }) => {
 
 const findById = async (id) => {
   return Event.findByPk(id, {
-    attributes: EVENT_ATTRIBUTES,
+    attributes: EVENT_DETAIL_ATTRIBUTES,
     include: [
       {
         model: User,
@@ -63,4 +65,39 @@ const remove = async (id) => {
   await event.destroy();
 };
 
-module.exports = { findAll, create, findById, remove };
+const selectWinner = async (eventId, teamId) => {
+  const event = await Event.findByPk(eventId, { attributes: ['id'] });
+
+  if (!event) {
+    const err = new Error('Event not found');
+    err.status = 404;
+    throw err;
+  }
+
+  const team = await Team.findOne({
+    where: { id: teamId, event_id: eventId },
+    attributes: ['id'],
+  });
+
+  if (!team) {
+    const err = new Error('Team not found');
+    err.status = 404;
+    throw err;
+  }
+
+  try {
+    await Event.update({ winner_team_id: team.id }, { where: { id: eventId } });
+  } catch (error) {
+    if (error instanceof ForeignKeyConstraintError) {
+      // The team was deleted between the check above and the update.
+      const err = new Error('Team not found');
+      err.status = 404;
+      throw err;
+    }
+    throw error;
+  }
+
+  return { id: event.id, winner_team_id: team.id };
+};
+
+module.exports = { findAll, create, findById, remove, selectWinner };

@@ -23,6 +23,7 @@ export default {
           DEFAULT: 'var(--color-accent)',
           subtle:  'var(--color-accent-subtle)',
         },
+        danger: 'var(--color-danger)',
       },
       borderRadius: {
         sm:   'var(--radius-sm)',

@@ -1,4 +1,18 @@
-export default function TeamSummaryRow({ team, criteria, judges, rank, isExpanded, onToggle }) {
+import Button from './Button';
+import WinnerBadge from './WinnerBadge';
+
+export default function TeamSummaryRow({
+  team,
+  criteria,
+  judges,
+  rank,
+  isExpanded,
+  onToggle,
+  isWinner = false,
+  isSelecting = false,
+  hasSelectError = false,
+  onSelectWinner,
+}) {
   const judgeScoreMap = {};
   for (const score of team.scores) {
     if (!judgeScoreMap[score.judgeId]) judgeScoreMap[score.judgeId] = {};
@@ -18,12 +32,13 @@ export default function TeamSummaryRow({ team, criteria, judges, rank, isExpande
 
   return (
     <li className="bg-bg-surface border border-border-card rounded-md shadow-sm overflow-hidden">
+      <div className="flex items-center">
       <button
         type="button"
         onClick={onToggle}
         aria-expanded={isExpanded}
         className="
-          w-full flex items-center gap-4 px-6 py-5 text-left
+          flex-1 min-w-0 flex items-center gap-4 pl-6 pr-4 py-5 text-left
           hover:bg-bg-page transition-colors duration-base
           focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2
         "
@@ -63,6 +78,27 @@ export default function TeamSummaryRow({ team, criteria, judges, rank, isExpande
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
       </button>
+
+      <div className="shrink-0 pr-6 flex flex-col items-end gap-1">
+        {isWinner ? (
+          <WinnerBadge />
+        ) : (
+          <Button
+            variant="secondary"
+            isLoading={isSelecting}
+            onClick={onSelectWinner}
+            aria-label={`Select ${team.name} as winner`}
+          >
+            Select as Winner
+          </Button>
+        )}
+        {hasSelectError && (
+          <p role="alert" className="text-sm text-danger">
+            {"Couldn't select winner. Try again."}
+          </p>
+        )}
+      </div>
+      </div>
 
       {isExpanded && (
         <div className="px-6 pb-6 border-t border-border-card">

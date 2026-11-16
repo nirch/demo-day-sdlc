@@ -24,6 +24,9 @@
   --color-accent:        #6366f1;
   --color-accent-subtle: #ede9fe;
 
+  /* Feedback */
+  --color-danger:        #dc2626;
+
   /* Border radius */
   --radius-sm:   8px;
   --radius-md:   12px;

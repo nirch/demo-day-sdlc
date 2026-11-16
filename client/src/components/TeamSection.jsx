@@ -8,7 +8,7 @@ import ConfirmDialog from './ConfirmDialog';
 import ScoringModal from './ScoringModal';
 import Button from './Button';
 
-export default function TeamSection({ eventId, eventStatus, readOnly = false, isJudge = false }) {
+export default function TeamSection({ eventId, eventStatus, winnerTeamId = null, readOnly = false, isJudge = false }) {
   const [teams, setTeams] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState(null);
@@ -186,6 +186,7 @@ export default function TeamSection({ eventId, eventStatus, readOnly = false, is
               ) : (
                 <TeamCard
                   team={team}
+                  isWinner={team.id === winnerTeamId}
                   isDraft={isDraft}
                   onEdit={() => setEditingTeamId(team.id)}
                   onDelete={() => setDeletingTeam(team)}

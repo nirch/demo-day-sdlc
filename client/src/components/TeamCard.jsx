@@ -1,6 +1,7 @@
 import Button from './Button';
+import WinnerBadge from './WinnerBadge';
 
-export default function TeamCard({ team, isDraft, onEdit, onDelete, isJudge, hasScored, onScore, onMoveUp, onMoveDown, isFirst, isLast }) {
+export default function TeamCard({ team, isWinner = false, isDraft, onEdit, onDelete, isJudge, hasScored, onScore, onMoveUp, onMoveDown, isFirst, isLast }) {
   return (
     <div className="bg-bg-surface border border-border-card rounded-md px-6 py-5 shadow-sm">
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
@@ -9,6 +10,7 @@ export default function TeamCard({ team, isDraft, onEdit, onDelete, isJudge, has
             <h3 className="text-xl font-semibold tracking-tight text-text-primary">
               {team.name}
             </h3>
+            {isWinner && <WinnerBadge />}
             {isJudge && hasScored && (
               <span className="inline-flex items-center gap-1 bg-accent-subtle text-accent text-xs font-medium px-2 py-0.5 rounded-pill">
                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">

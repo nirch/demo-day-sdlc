@@ -150,7 +150,7 @@ export default function EventDetailPage() {
       )}
 
       {isAdmin && <InviteJudgeSection eventId={id} />}
-      <TeamSection eventId={id} eventStatus={event.status} readOnly={!isAdmin} isJudge={isJudge} />
+      <TeamSection eventId={id} eventStatus={event.status} winnerTeamId={event.winner_team_id} readOnly={!isAdmin} isJudge={isJudge} />
       {isAdmin && <ScoringCriteriaSection eventId={id} eventStatus={event.status} />}
 
       {isAdmin && event.status === 'draft' && (

@@ -41,6 +41,14 @@ module.exports = (sequelize) => {
         key: 'id',
       },
     },
+    winner_team_id: {
+      type: DataTypes.UUID,
+      allowNull: true,
+      references: {
+        model: 'teams',
+        key: 'id',
+      },
+    },
     judge_invite_token: {
       type: DataTypes.UUID,
       allowNull: true,
