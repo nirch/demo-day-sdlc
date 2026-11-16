@@ -37,7 +37,7 @@ All ids are UUIDs. Associations are declared in `server/src/models/index.js`.
 | Table | Purpose | Key columns |
 |---|---|---|
 | `users` | Admins and judges | `email` (nullable, unique), `password` (nullable), `role` (`admin` or `judge`), `name`, `title`, `company` |
-| `events` | A demo day | `name`, `description`, `date`, `status` (`draft`, `active`, `completed`), `time_limit`, `created_by` → users, `judge_invite_token` (nullable, unique) |
+| `events` | A demo day | `name`, `description`, `date`, `status` (`draft`, `active`, `completed`), `time_limit`, `created_by` → users, `judge_invite_token` (nullable, unique), `winner_team_id` (nullable → teams, `ON DELETE SET NULL`) |
 | `teams` | Teams in an event | `event_id`, `name`, `members`, `demo_presentation_url`, `live_app_url`, `sort_order`; unique `(event_id, name)` |
 | `criteria` | Scoring criteria of an event | `event_id`, `name`, `description`, `sort_order`; unique `(event_id, name)` |
 | `event_judges` | Judges assigned to an event | `event_id`, `user_id`; unique pair |
@@ -66,6 +66,7 @@ Role summary (server-enforced unless noted):
 | Invite: validate, join | public | public |
 | Score a team, read own scores | no | yes (assigned judges only) |
 | Scoring summary | yes | no |
+| Select event winner | yes | no |
 
 ## Response envelope
 Every API response is `{ data, error }` with a matching HTTP status; success has `error: null`, failure has `data: null`.
@@ -115,3 +116,4 @@ See [manage-teams](flows/manage-teams.md), [manage-scoring-criteria](flows/manag
 - [Judge joins](flows/judge-joins.md)
 - [Judge scores a team](flows/judge-scores-team.md)
 - [Admin views results](flows/admin-views-results.md)
+- [Select winner](flows/select-winner.md)

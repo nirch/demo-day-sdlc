@@ -11,3 +11,4 @@
 - [flows/judge-joins.md](flows/judge-joins.md): judge joins an event through an invite link.
 - [flows/judge-scores-team.md](flows/judge-scores-team.md): judge scores a team and leaves a comment.
 - [flows/admin-views-results.md](flows/admin-views-results.md): admin views the ranked scoring summary.
+- [flows/select-winner.md](flows/select-winner.md): admin selects the winning team of an event.

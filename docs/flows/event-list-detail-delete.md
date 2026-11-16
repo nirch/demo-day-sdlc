@@ -41,7 +41,7 @@ Server (`server/src/`):
 ## API calls
 All require a Bearer JWT.
 - `GET /api/events` → 200 array of events (ordered by `date` desc). Fields: `id, name, description, date, status, time_limit, created_by, created_at, updated_at`.
-- `GET /api/events/:id` → 200 event plus `creator { id, email }`; 404 `"Event not found"`.
+- `GET /api/events/:id` → 200 event plus `creator { id, email }` and `winner_team_id` (null until a winner is selected, see [select-winner](select-winner.md)); 404 `"Event not found"`.
 - `DELETE /api/events/:id` (admin) → 200 `{ message: "Event deleted successfully" }`; 403 for non-admin; 404; 409 `"Only draft events can be deleted"`.
 
 ## Tables touched

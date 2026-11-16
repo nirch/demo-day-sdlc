@@ -10,7 +10,8 @@ An admin sees the ranked scoring summary for an event. Scores come from [judge-s
 2. `/events/:id/scoring-summary` shows a skeleton, then either "Failed to load scoring summary" with Retry, or "No scores have been submitted yet…" when no team has scores.
 3. Otherwise a ranked list of teams. Each row shows rank (list position), team name, average score out of 5 (or "No scores") and a Complete / "Incomplete (x/y judges)" badge (shown only if the event has judges).
 4. Clicking a row expands it (one at a time): a criteria-by-judge table ("—" for missing values, "Missing" under judges who scored nothing) and each judge's comment.
-5. "← Back to <event name>" returns to the event.
+5. Each row also has a "Select as Winner" button (or a "Winner" badge for the current winner); see [select-winner](select-winner.md).
+6. "← Back to <event name>" returns to the event.
 
 ## Files
 Client (`client/src/`):
@@ -27,7 +28,7 @@ Server (`server/src/`):
 
 ## API calls
 `GET /api/events/:eventId/scoring-summary` (Bearer JWT, admin)
-- 200 `{ data: { event: { id, name }, criteria: [{ id, name, sortOrder }], judges: [{ id, name }], teams: [{ id, name, averageScore | null, totalScores, expectedScores, isComplete, scores: [{ criterionId, judgeId, value }], comments: [{ judgeId, comment }] }] } }`
+- 200 `{ data: { event: { id, name, winnerTeamId | null }, criteria: [{ id, name, sortOrder }], judges: [{ id, name }], teams: [{ id, name, averageScore | null, totalScores, expectedScores, isComplete, scores: [{ criterionId, judgeId, value }], comments: [{ judgeId, comment }] }] } }`
 - 401, 403, 404 `"Event not found"`.
 
 ## Tables touched (all read only)
